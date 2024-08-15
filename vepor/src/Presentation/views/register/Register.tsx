@@ -5,14 +5,18 @@ import { MyColors } from '../../theme/AppTheme';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../../App';
+import useViewModel from "./ViewModel";
+import CustomTextInput from '../../components/CustomTextInput';
+import styles from './Styles';
 
 const RegisterScreen = () => {
     //I have used this dependence , because i saw nativeStack.... is more efficient thant just stack , remind delete stack package if we dont use all
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
-   
+    //those are the vlues that we bring form the View model
+    const { name, surname, confirmPassword, email, onChange, password, phone, register} = useViewModel();
 
     return (
-        //Column
+
         <View style={styles.container}>
             <Image
                 source={require('../../../../assets/foodbg.jpg')}
@@ -29,105 +33,72 @@ const RegisterScreen = () => {
             <View style={styles.forms}>
                 <View>
                     <Text style={styles.formText}>REGISTRARSE</Text>
-                    <View
-                        style={styles.formInput}
-                    >
-                        <Image
-                            source={require("../../../../assets/user.png")}
-                            style={styles.formIcon}
-                        />
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='Nombre'
-                            keyboardType='default'
-                        />
 
-                    </View>
-                    <View
-                        style={styles.formInput}
-                    >
-                        <Image
-                            source={require("../../../../assets/my_user.png")}
-                            style={styles.formIcon}
-                        />
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='Apellidos'
-                            keyboardType='default'
-                            
-                        />
+                    <CustomTextInput
+                        placeholder='Nombre'
+                        keyboard='default'
+                        image={require("../../../../assets/user.png")}
+                        property="name"
+                        onChangeText={onChange}
+                        value={name}
 
-                    </View>
-                    <View
-                        style={styles.formInput}
-                    >
-                        <Image
-                            source={require("../../../../assets/email.png")}
-                            style={styles.formIcon}
-                        />
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='Correo Electrónico'
-                            keyboardType='email-address'
-                            
-                        />
+                    />
+                    <CustomTextInput
+                        placeholder='Apellidos'
+                        keyboard='default'
+                        image={require("../../../../assets/user.png")}
+                        property="surname"
+                        onChangeText={onChange}
+                        value={surname}
 
-                    </View>
-                    <View
-                        style={styles.formInput}
-                    >
-                        <Image
-                            source={require("../../../../assets/phone.png")}
-                            style={styles.formIcon}
-                        />
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='Teléfono'
-                            keyboardType='numeric'
-                    
-                        />
+                    />
+                    <CustomTextInput
+                        placeholder='Correo Electrónico'
+                        keyboard='default'
+                        image={require("../../../../assets/email.png")}
+                        property="email"
+                        onChangeText={onChange}
+                        value={email}
 
-                    </View>
-                    <View
-                        style={styles.formInput}
-                    >
-                        <Image
-                            source={require("../../../../assets/password.png")}
-                            style={styles.formIcon}
-                        />
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='Contraseña'
-                            keyboardType='default'
-                            secureTextEntry={true}
-                        />
+                    />
+                    <CustomTextInput
+                        placeholder='Telefono'
+                        keyboard='numeric'
+                        image={require("../../../../assets/phone.png")}
+                        property="phone"
+                        onChangeText={onChange}
+                        value={phone}
 
-                    </View>
-                   
-                    <View
-                        style={styles.formInput}
-                    >
-                        <Image
-                            source={require("../../../../assets/confirm_password.png")}
-                            style={styles.formIcon}
-                        />
-                        <TextInput
-                            style={styles.formTextInput}
-                            placeholder='Confirmar contraseña'
-                            keyboardType='default'
-                            secureTextEntry={true}
-                        />
+                    />
+                    <CustomTextInput
+                        placeholder='Contraseña'
+                        keyboard='default'
+                        image={require("../../../../assets/password.png")}
+                        property="password"
+                        onChangeText={onChange}
+                        value={password}
+                        secureTextEntry={true}
+                    />
 
-                    </View>
+                    <CustomTextInput
+                        placeholder='Contraseña'
+                        keyboard='default'
+                        image={require("../../../../assets/confirm_password.png")}
+                        property="confirmPassword"
+                        onChangeText={onChange}
+                        value={confirmPassword}
+                        secureTextEntry={true}
+                    />
+
                     <View style={{ marginTop: "10%" }}>
                         <RoundedButton
                             text='LOGIN'
-                            onPress={() => ToastAndroid.show("Hola!", ToastAndroid.SHORT)}
+                            onPress={() => register()}
                         >
 
                         </RoundedButton>
                     </View>
-                  
+
                 </View>
             </View>
         </View>
@@ -135,81 +106,6 @@ const RegisterScreen = () => {
 }
 
 //hot reaload
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'black',
-    },
-    ImageBackground: {
-        width: '100%',
-        height: '100%',
-        opacity: 0.4,
-
-    },
-    forms: {
-        width: '94%',
-        height: '70%',
-        backgroundColor: MyColors.background,
-        position: 'absolute',
-        bottom: 15,
-        borderRadius: 30,
-        left: '3%',
-        right: '3%',
-        padding: "8%"
-    },
-    logoContainer: {
-        position: 'absolute',
-        alignSelf: 'center',
-        alignItems:'center',
-        top: '5%'
-    }
-    ,
-    logoImages: {
-        width: 100,
-        height: 100
-    }
-    ,
-    logoText: {
-        color: 'white',
-        textAlign: 'center',
-        fontSize: 20,
-        fontWeight: "bold",
-        paddingTop:10
-    }
-    ,
-    formText: {
-        fontWeight: "bold",
-        fontSize: 16
-    }
-    ,
-    formTextInput: {
-        flex: 1,
-        borderBottomWidth: 1,
-        borderBottomColor: "#AAAAAA",
-        marginLeft: "4%"
-    },
-    formInput: {
-        flexDirection: 'row',
-        marginTop: "10%",
-
-    }
-    ,
-    formIcon: {
-        width: 25,
-        height: 25,
-        marginTop: 5
-    }
-   ,
-    formRegisterText: {
-        fontStyle: "italic",
-        color: "orange",
-        borderBottomWidth: 1,
-        borderBottomColor: "orange",
-        fontWeight: "bold",
-        marginLeft: "3%"
-    }
-});
 
 
 
